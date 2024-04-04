@@ -11,8 +11,8 @@ typedef struct Node {
     struct Node *prev;
 } Node;
 /*
-    locomotiva (santinela) este head, ultimul vagon este tail 
-    vagonul unde se afla mecanicul este mechanic
+    dummy node is head, tail is the last node and mechanic is the node
+    where the mechanic stays obviously
 */
 typedef struct {
     Node* head;
@@ -34,7 +34,9 @@ void checkIfNodeIsCreated(Node *node){
         exit(0);
     }
 }
-
+/*
+    basic links for a double linked list
+*/
 void defaultLinks(LinkedList *list){
     list->head->next = list->tail;
     list->head->prev = list->tail;
@@ -69,6 +71,7 @@ LinkedList* createList() {
 // UPDATE
 void insertLeft(LinkedList *list, char c, FILE *file){
     checkIfListIsCreated(list);
+
     if (list->mechanic == list->head->next){
         fprintf(file, "ERROR\n");
     }
@@ -78,7 +81,7 @@ void insertLeft(LinkedList *list, char c, FILE *file){
         Node *leftNode = list->mechanic->prev;
 
         new->info = c;
-
+        // links
         leftNode->next = new;
         new->prev = leftNode;
         new->next = list->mechanic;
@@ -97,6 +100,11 @@ void insertRight(LinkedList *list, char c){
 
     new->info = c;
 
+    /*
+        if the mechanic is in the last node then i'll simply append the 
+        node to the train, otherwise i gotta make it fit in there by 
+        recreating the links
+    */ 
     if (list->mechanic == list->tail){
         new->prev = list->tail;
         new->next = list->head;
@@ -121,8 +129,10 @@ void insertRight(LinkedList *list, char c){
 }
 
 void moveLeft(LinkedList *list){
-    // daca mecanicul este in primul vagon il mut in ultimul
-    // altfel il mut in stanga lui
+    /*
+        if the mechanic is in the first wagon then i'll move him 
+        to the last (tail) otherwise i'm just moving lil bro to his new place
+    */
     if (list->mechanic == list->head->next){
         list->mechanic = list->tail;
     } else {
@@ -140,6 +150,9 @@ void moveRight(LinkedList *list) {
 
 void insert(LinkedList *list, char *where, char c, FILE *file){
     checkIfListIsCreated(list);
+    /*
+        checking where to search
+    */
     if (strcmp(where, "INSERT_LEFT") == 0){
         insertLeft(list, c, file);
     } else if (strcmp(where, "INSERT_RIGHT") == 0){
@@ -151,6 +164,9 @@ void insert(LinkedList *list, char *where, char c, FILE *file){
 
 void moveMechanic(LinkedList *list, char *where, FILE *file){
     checkIfListIsCreated(list);
+    /*
+        checking where to move
+    */
     if (strcmp(where, "MOVE_LEFT") == 0){
         moveLeft(list);
     } else if (strcmp(where, "MOVE_RIGHT") == 0){
@@ -167,7 +183,10 @@ void write(LinkedList *list, char c){
 
 void clearAll(LinkedList *list) {
     checkIfListIsCreated(list);
-
+    /*
+        iterating through the list and removing every node and after that
+        recreating the default links
+    */
     Node* current = list->head->next;
     Node* previous = current;
     while(current->next != list->head){
@@ -184,6 +203,11 @@ void clearCell(LinkedList* list){
     if (list->size == 1){
         defaultLinks(list);
     }
+    /*
+        if the mechanic is not in the first node then i'll redo the links
+        with the neighbours, otherwise only with the next node and the dummy
+        node
+    */
     else if (list->mechanic != list->head->next) {
         Node *leftNode = list->mechanic->prev;
         Node *rightNode = list->mechanic->next;
@@ -225,15 +249,27 @@ void search(LinkedList *list, char *word, FILE *file) {
     int i = 0;
     Node *start = list->mechanic;
     bool notFound = false;
+    /*
+        searching for the first appeareance of the first word letter
+        and marking the whole search with a retry in case we find a first
+        matching character but the rest of them are different,
+        and we didn't search the mechanic again yet we can go back
+        and start fresh with another search
+    */
 retry:
     while (start->info != word[i]){
-        
+        /*
+            if we reached the dummy node we skip it with next next
+        */
         if (start->next == list->head){
             start = start->next->next;
         } else {
             start = start->next;
         }
-
+        /*
+            if we reached the mechanic without finding the first letter
+            then the word is not found
+        */
         if (start == list->mechanic){
             notFound = true;
             break;
@@ -252,7 +288,11 @@ retry:
         } else {
             start = start->next;
         }
-
+        /*
+            as long as we have remaning characters we keep comparing
+            them with the nodes info, if one doesnt match then we clearly
+            didn't find the word so we break and try a new search if possible
+        */
         while (remainingLenght != 0){
             if (start->info != word[i]){
                 break;
@@ -267,9 +307,17 @@ retry:
                 }
             }
         }
+        /*
+            moving the mechanic to the firstLetter of the word
+        */
         if (remainingLenght == 0){
             list->mechanic = firstLetter;
         } else {
+            /*
+                if the node we're currently at has not reached mechanic yet
+                then we can try a new search and jump to the beggining
+                of the search 
+            */
             if (remainingLenght != 0 && start != list->mechanic){
                 i = 0;
                 goto retry;
@@ -282,6 +330,10 @@ retry:
 }
 
 void searchDir(LinkedList *list, char *word, FILE *file, char* where){
+    /*
+        pretty much the same search algorithm, i'm just seraching in a
+        direction until i hit the dummy node
+    */
     int i = 0;
     Node *start = list->mechanic;
     Node *lastCharNode = NULL;
@@ -353,6 +405,9 @@ retry:
 
 void searchDirection(LinkedList *list, char *where, char *what, FILE *file){
     checkIfListIsCreated(list);
+    /*
+        checking the directions
+    */
     if (strcmp(where, "SEARCH_LEFT") == 0){
         searchDir(list, what, file, where);
     } else if (strcmp(where, "SEARCH_RIGHT") == 0){
