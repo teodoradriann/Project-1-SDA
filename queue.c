@@ -76,8 +76,11 @@ char *dequeue(Queue *queue){
     }
     else {
         QueueNode *returnNode = queue->head;
-        // copiez informatia din nod intr-o alta zona de memorie pentru
-        // a putea elibera coada 
+
+        /*
+            i'm copying the info in another memory zone in order to 
+            free the first element from the queue and return its info
+        */
         
         char *info = malloc(strlen(returnNode->info) + 1);
         if (info == NULL){
@@ -85,11 +88,10 @@ char *dequeue(Queue *queue){
         }
         strcpy(info, returnNode->info);
         
-        // actualizez noul prim element al cozii
         queue->head = returnNode->next;
         queue->size--;
         
-        //eliberez vechiul element
+        //freeing the old node
         free(returnNode->info);
         free(returnNode);
         
@@ -108,12 +110,12 @@ void switchQueueCmds(Queue *queue){
     if (isEmpty(queue)){
         return;
     } else {
-        int nrInterschimbari = 0;
+        int howManySwitches = 0;
         QueueNode *first = queue->head;
         QueueNode *last = queue->tail;
-        while (nrInterschimbari != queue->size / 2){
+        while (howManySwitches != queue->size / 2){
             swapInfo(&(first->info), &(last->info));
-            nrInterschimbari++;
+            howManySwitches++;
             first = first->next;
             last = last->prev;
         }
