@@ -281,14 +281,25 @@ retry:
     }
 }
 
-void searchRight(LinkedList *list, char *word, FILE *file){
+void searchDir(LinkedList *list, char *word, FILE *file, char* where){
     int i = 0;
     Node *start = list->mechanic;
     Node *lastCharNode = NULL;
     bool notFound = false;
+    bool left = false;
     int lenght = strlen(word);
+    if (strcmp(where, "SEARCH_LEFT") == 0){
+        left = true;
+    } else {
+        left = false;
+    }
+retry:
     while (start->info != word[i]){
-        start = start->next;
+        if (left){
+            start = start->prev;
+        } else {
+            start = start->next;
+        }
         if (start == list->head){
             notFound = true;
             break;
@@ -300,7 +311,11 @@ void searchRight(LinkedList *list, char *word, FILE *file){
         i++;
         int remainingLenght = lenght - 1;
         lastCharNode = start;
-        start = start->next;
+        if (left){
+            start = start->prev;
+        } else {
+            start = start->next;
+        }
         while (remainingLenght != 0){
             if (start->info != word[i]){
                 break;
@@ -312,53 +327,11 @@ void searchRight(LinkedList *list, char *word, FILE *file){
                         lastCharNode = start;
                         break;
                     }
-                    start = start->next;
-                    i++;
-                } else {
-                    break;
-                }
-            }
-        }
-        if (remainingLenght == 0){
-            list->mechanic = lastCharNode;
-        } else {
-            fprintf(file, "ERROR\n");
-        }
-    }
-}
-
-void searchLeft(LinkedList *list, char *word, FILE *file){
-    Node *start = list->mechanic;
-    Node *lastCharNode = NULL;
-    int i = 0;
-    bool notFound = false;
-    int lenght = strlen(word);
-    while (start->info != word[i]){
-        start = start->prev;
-        if (start == list->head){
-            notFound = true;
-            break;
-        }
-    }
-    if (notFound) {
-        fprintf(file, "ERROR\n");
-    } else {
-        i++;
-        int remainingLenght = lenght - 1;
-        lastCharNode = start;
-        start = start->prev;
-        while (remainingLenght != 0){
-            if (start->info != word[i]){
-                break;
-            }
-            else {
-                if (start != list->head){
-                    remainingLenght--;
-                    if (remainingLenght == 0){
-                        lastCharNode = start;
-                        break;
+                    if (left){
+                        start = start->prev;
+                    } else {
+                        start = start->next;
                     }
-                    start = start->prev;
                     i++;
                 } else {
                     break;
@@ -368,7 +341,12 @@ void searchLeft(LinkedList *list, char *word, FILE *file){
         if (remainingLenght == 0){
             list->mechanic = lastCharNode;
         } else {
-            fprintf(file, "ERROR\n");
+            if (remainingLenght != 0 && start != list->head){
+                i = 0;
+                goto retry;
+            } else {
+                fprintf(file, "ERROR\n");
+            }
         }
     }
 }
@@ -376,9 +354,9 @@ void searchLeft(LinkedList *list, char *word, FILE *file){
 void searchDirection(LinkedList *list, char *where, char *what, FILE *file){
     checkIfListIsCreated(list);
     if (strcmp(where, "SEARCH_LEFT") == 0){
-        searchLeft(list, what, file);
+        searchDir(list, what, file, where);
     } else if (strcmp(where, "SEARCH_RIGHT") == 0){
-        searchRight(list, what, file);
+        searchDir(list, what, file, where);
     } else {
         fprintf(file, "Invalid direction.\n");
     }
