@@ -104,6 +104,7 @@ int main() {
                         strncpy(where, executeCmd, length);
                         where[length] = '\0';
                         searchDirection(train, where, space + 1, outputFile);
+                        free(where);
                     }
 
                     else if (strncmp(executeCmd, "SEARCH", 6) == 0){
