@@ -22,6 +22,7 @@ int main() {
 
     char *executeCmd = NULL;
     char *cmd = malloc(STANDARD_CMD_SIZE);
+
     if (cmd == NULL) {
         printf("ERROR. COULD NOT ALLOCATE MEMORY FOR CMD\n");
         return 0;
@@ -111,6 +112,7 @@ int main() {
                     }
                     free(executeCmd);
                 }
+
             }
             n--;
         }
@@ -120,7 +122,6 @@ int main() {
     destroyList(train);
     
     free(cmd);
-    
 
     fclose(inputFile);
     fclose(outputFile);

@@ -21,14 +21,6 @@ typedef struct {
     int size;
 } LinkedList;
 
-void nextNode(LinkedList *list, Node *node){
-    if (node->next == list->head){
-            node = node->next->next;
-        } else {
-            node = node->next;
-        }
-}
-
 void checkIfListIsCreated(LinkedList *list){
     if (list == NULL) {
         printf(NO_LIST_ERROR);
@@ -269,7 +261,11 @@ retry:
         /*
             if we reached the dummy node we skip it with next next
         */
-        nextNode(list, start);
+        if (start->next == list->head){
+            start = start->next->next;
+        } else {
+            start = start->next;
+        }
         /*
             if we reached the mechanic without finding the first letter
             then the word is not found
@@ -287,7 +283,11 @@ retry:
         int remainingLenght = strlen(word) - 1;
         Node *firstLetter = start;
 
-        nextNode(list, start);
+        if (start->next == list->head){
+            start = start->next->next;
+        } else {
+            start = start->next;
+        }
         /*
             as long as we have remaning characters we keep comparing
             them with the nodes info, if one doesnt match then we clearly
@@ -300,7 +300,7 @@ retry:
             else {
                 if (start != list->mechanic){
                     remainingLenght--;
-                    nextNode(list, start);
+                    start = start->next;
                     i++;
                 } else {
                     break;
