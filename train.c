@@ -427,5 +427,6 @@ void destroyList(LinkedList *list){
         free(temp);
     }
     
+    free(list->head);
     free(list);
 }

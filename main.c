@@ -108,6 +108,8 @@ int main() {
                         char *space = strchr(executeCmd, ' ');
                         search(train, space + 1, outputFile);
                     }
+                    
+                    free(executeCmd);
                 }
             }
             n--;
@@ -116,7 +118,8 @@ int main() {
     
     destroyQueue(queue);
     destroyList(train);
-    
+    free(cmd);
+
     fclose(inputFile);
     fclose(outputFile);
     return 0;
