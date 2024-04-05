@@ -19,7 +19,8 @@ int main() {
     LinkedList *train = createList();
     Queue *queue = createQueue();
     int n;
-    
+
+    char *executeCmd = NULL;
     char *cmd = malloc(STANDARD_CMD_SIZE);
     if (cmd == NULL) {
         printf("ERROR. COULD NOT ALLOCATE MEMORY FOR CMD\n");
@@ -58,7 +59,7 @@ int main() {
                 enqueue(queue, cmd);
             } else {
                 if (!isEmpty(queue)){
-                    char *executeCmd = dequeue(queue);
+                    executeCmd = dequeue(queue);
                     
                     if (strcmp(executeCmd, "MOVE_RIGHT") == 0 || 
                         strcmp(executeCmd, "MOVE_LEFT") == 0) {
@@ -108,7 +109,6 @@ int main() {
                         char *space = strchr(executeCmd, ' ');
                         search(train, space + 1, outputFile);
                     }
-                    
                     free(executeCmd);
                 }
             }
@@ -118,7 +118,9 @@ int main() {
     
     destroyQueue(queue);
     destroyList(train);
+    
     free(cmd);
+    
 
     fclose(inputFile);
     fclose(outputFile);
