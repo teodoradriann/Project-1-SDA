@@ -124,10 +124,10 @@ void switchQueueCmds(Queue *queue){
 
 void destroyQueue(Queue *queue) {
     checkIfQueueExists(queue);
-    QueueNode *current = queue->head;
 
-    while (current != NULL) {
-        current = current;
+    while (queue->head != NULL) {
+        QueueNode *current = queue->head;
+        queue->head = queue->head->next;
         free(current->info);
         free(current); 
     }
