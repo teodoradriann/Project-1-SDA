@@ -284,7 +284,7 @@ retry:
         fprintf(file, "ERROR\n");
     } else {
         i++;
-        int remainingLenght = strlen(word) - 1;
+        int remainingLength = strlen(word) - 1;
         Node *firstLetter = start;
 
         nextNode(list, &start);
@@ -293,13 +293,13 @@ retry:
             them with the nodes info, if one doesnt match then we clearly
             didn't find the word so we break and try a new search if possible
         */
-        while (remainingLenght != 0){
+        while (remainingLength != 0){
             if (start->info != word[i]){
                 break;
             }
             else {
                 if (start != list->mechanic){
-                    remainingLenght--;
+                    remainingLength--;
                     nextNode(list, &start);
                     i++;
                 } else {
@@ -310,7 +310,7 @@ retry:
         /*
             moving the mechanic to the firstLetter of the word
         */
-        if (remainingLenght == 0){
+        if (remainingLength == 0){
             list->mechanic = firstLetter;
         } else {
             /*
@@ -318,7 +318,7 @@ retry:
                 then we can try a new search and jump to the beggining
                 of the search 
             */
-            if (remainingLenght != 0 && start != list->mechanic){
+            if (remainingLength != 0 && start != list->mechanic){
                 i = 0;
                 goto retry;
             }
@@ -361,21 +361,21 @@ retry:
         fprintf(file, "ERROR\n");
     } else {
         i++;
-        int remainingLenght = lenght - 1;
+        int remainingLength = lenght - 1;
         lastCharNode = start;
         if (left){
             start = start->prev;
         } else {
             start = start->next;
         }
-        while (remainingLenght != 0){
+        while (remainingLength != 0){
             if (start->info != word[i]){
                 break;
             }
             else {
                 if (start != list->head){
-                    remainingLenght--;
-                    if (remainingLenght == 0){
+                    remainingLength--;
+                    if (remainingLength == 0){
                         lastCharNode = start;
                         break;
                     }
@@ -390,10 +390,10 @@ retry:
                 }
             }
         }
-        if (remainingLenght == 0){
+        if (remainingLength == 0){
             list->mechanic = lastCharNode;
         } else {
-            if (remainingLenght != 0 && start != list->head){
+            if (remainingLength != 0 && start != list->head){
                 i = 0;
                 goto retry;
             } else {
