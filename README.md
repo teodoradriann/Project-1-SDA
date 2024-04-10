@@ -17,7 +17,14 @@ cu un 'retry' mark astfel incat cand nu gasesc un potential cuvant si nu am ajun
 mecanic sa reincep cautarea.
 Aceeasi abrodare a fost si pentru search-left/right.
 
-Restul metodelor sunt chestii de baza cu lucrul de liste, nu cred ca e nevoie sa intru in detaliu.
+
+In train.c am implementat metodele listei dublu inlantuite cu santinela si in queue.c am implementat
+coada comenzilor. In main.c am facut citire propriu zisa a datelor si procesarea lor.
+
+Metodele sunt chestii de baza cu lucrul de liste, nu cred ca e nevoie sa intru in detaliu, fiecare
+este comentata in fisierul unde se afla.
 
 Overall tema mi s-a parut draguta insa mi-ar fi placut sa aiba o dificultate mult mai mare,
 poate pe viitor se va tine cont de acest aspect.
+
+Am obtinut 120/120 local.

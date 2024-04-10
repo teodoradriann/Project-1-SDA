@@ -1,3 +1,5 @@
+/* Miron Teodor Adrian - 314CC */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
