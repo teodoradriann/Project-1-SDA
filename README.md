@@ -1,30 +1,12 @@
 # tema1-SDA
 
-Aceasta este implementarea mea pentru Tema 1. Am ales sa modularizez cat mai 
-mult codul pentru o mai usoara citire a codului, o mai buna organizare, si
-pentru a lucra intr-un mediu mai curat. Prin aceasta tehnica am reusit sa impart
-fiecare parte a codului cu metodele si structurile de date aferente lui.
+This is my implementation for Assignment 1. I chose to modularize the code as much as possible for easier reading, better organization, and to work in a cleaner environment. By using this technique, I was able to split each part of the code along with its respective methods and data structures.
 
-Tema mi s-a parut usoara, ar fi fost mai distractiv sa fie putin mai challenging.
-Functia search a fost cea mai interesanta si am abordat-o astfel: am decis sa caut prima
-litera din cuvant pentru a decide daca e posibil sa avem cuvantul cautat in lista, daca
-prima litera nu exista in lista inseamna ca nu exista acel cuvant in lista, altfel,
-voi cauta in continuare litera cu litera inca strlen(cuvant) - 1 litere deoarece pe prima
-am gasit-o. Aici am avut primul bug din program deoarece eu daca aveam match la 3/4 liere sa zicem,
-dar nu ajungeam inca la mecanic programul meu imi marca cuvantul drept negasit fara a mai cauta
-pana la mecanic, deci ca sa rezolv acest bug am decis sa marchez toata cautarea de la prima litera
-cu un 'retry' mark astfel incat cand nu gasesc un potential cuvant si nu am ajuns nici la
-mecanic sa reincep cautarea.
-Aceeasi abrodare a fost si pentru search-left/right.
+I found the assignment easy; it would have been more fun if it had been a bit more challenging. The search function was the most interesting, and I approached it as follows: I decided to search for the first letter of the word to determine if it’s possible that the searched word is in the list. If the first letter doesn’t exist in the list, it means that the word is not in the list. Otherwise, I continue searching letter by letter for strlen(word) - 1 letters because the first one has already been found. Here, I encountered the first bug in the program because if I had a match for, say, 3/4 letters but hadn’t reached the terminator yet, my program would mark the word as not found without continuing to search until the terminator. To fix this bug, I decided to mark the entire search from the first letter with a “retry” mark so that if I don’t find a potential word and haven’t reached the terminator, I can restart the search.
+The same approach was applied for search-left/right.
 
+In train.c, I implemented the methods for the doubly linked list with sentinel, and in queue.c, I implemented the command queue. In main.c, I handled the actual reading of the data and its processing.
 
-In train.c am implementat metodele listei dublu inlantuite cu santinela si in queue.c am implementat
-coada comenzilor. In main.c am facut citire propriu zisa a datelor si procesarea lor.
+The methods are basic list operations; I don’t think it’s necessary to go into detail, as each one is commented on in the file where it’s located.
 
-Metodele sunt chestii de baza cu lucrul de liste, nu cred ca e nevoie sa intru in detaliu, fiecare
-este comentata in fisierul unde se afla.
-
-Overall tema mi s-a parut draguta insa mi-ar fi placut sa aiba o dificultate mult mai mare,
-poate pe viitor se va tine cont de acest aspect.
-
-Am obtinut 120/120 local.
+Overall, I found the assignment nice, but I would have preferred it to be much more difficult. Maybe this aspect will be considered in the future.
